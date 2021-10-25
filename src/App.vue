@@ -1,19 +1,53 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>API</h1>
+    <hr />
+    <List v-bind:combinedApi="combinedApi" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import List from "./components/List";
 
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      posts: [],
+      photos: [],
+      combinedApi: [],
+    };
+  },
+  async mounted() {
+    const res = await fetch(
+      "https://jsonplaceholder.typicode.com/posts/1/comments"
+    );
+    const posts = await res.json();
+    this.posts = posts;
+    const result = await fetch(
+      "https://jsonplaceholder.typicode.com/albums/1/photos"
+    );
+    const photos = await result.json();
+    this.photos = photos;
+
+    const combinedArray = this.posts.map((item) => {
+      this.photos.forEach(function (i) {
+        if (i.id == item.id) {
+          console.log("popalsya");
+          item.url = i.url;
+        }
+      });
+      console.log(item.id);
+      return { item };
+    });
+this.combinedApi=combinedArray
+    // console.log(this.combinedApi);
+    // console.log(this.posts);
+  },
   components: {
-    HelloWorld
-  }
-}
+    List,
+  },
+};
 </script>
 
 <style>
