@@ -2,13 +2,22 @@
   <div id="app">
     <h1>API</h1>
     <hr />
-    <List v-bind:combinedApi="combinedApi" />
+    <NewCard v-bind:combinedApi="combinedApi" @addCard="addCardToArray"/>
+    <hr />
+    <Loader v-if="loading" />
+    <List
+      v-bind:combinedApi="combinedApi"
+      v-else-if="combinedApi.length"
+      v-on:removeCard="removeCard"
+    />
+    <p v-else>No cards</p>
   </div>
 </template>
 
 <script>
 import List from "./components/List";
-
+import Loader from "./components/Loader.vue";
+import NewCard from "./components/NewCard.vue";
 export default {
   name: "App",
   data() {
@@ -16,6 +25,7 @@ export default {
       posts: [],
       photos: [],
       combinedApi: [],
+      loading: true,
     };
   },
   async mounted() {
@@ -33,19 +43,30 @@ export default {
     const combinedArray = this.posts.map((item) => {
       this.photos.forEach(function (i) {
         if (i.id == item.id) {
-          console.log("popalsya");
           item.url = i.url;
         }
       });
-      console.log(item.id);
       return { item };
     });
-this.combinedApi=combinedArray
-    // console.log(this.combinedApi);
-    // console.log(this.posts);
+    setTimeout(() => {
+      this.combinedApi = combinedArray;
+      this.loading = false;      
+    }, 1000);
   },
   components: {
     List,
+    Loader,
+    NewCard,
+  },
+  methods: {
+    removeCard(id) {
+      this.combinedApi = this.combinedApi.filter(
+        (index) => index.item.id !== id
+      );
+    },
+    addCardToArray(item){
+      this.combinedApi.push(item)
+    }
   },
 };
 </script>

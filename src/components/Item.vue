@@ -2,15 +2,14 @@
   <div class="cardWraper">
     <div>
       <img :src="post.item.url" alt="avatar" />
-      <div class="userName">{{ post.item.name }}</div>
-      <p>{{ post.item.body }}</p>
+      <div class="userName">{{ post.item.name | firstLetterUpper }}</div>
+      <p>{{ post.item.body | firstLetterUpper }}</p>
     </div>
-    <ItemRemover />
+    <button v-on:click="$emit('remove-card', post.item.id)">delete</button>
   </div>
 </template>
 
 <script>
-import ItemRemover from "./ItemRemover.vue";
 export default {
   props: {
     post: {
@@ -18,11 +17,15 @@ export default {
       required: true,
     },
   },
-  data(){
-    
+  filters: {
+    firstLetterUpper(value) {
+      return value[0].toUpperCase() + value.slice(1);
+    },
   },
-  components: {
-    ItemRemover,
+  methods: {
+    removeCard(id) {
+      console.log(id);
+    },
   },
 };
 </script>

@@ -1,0 +1,86 @@
+<template>
+  <form class="newCard" @submit.prevent="onSubmit">
+    <h3>Add New card</h3>
+    <div>
+      <label for="name">Enter your name</label>
+      <input type="text" name="name" v-model="name" />
+    </div>
+    <div>
+      <label for="message">Enter your message</label>
+      <textarea
+        name="message"
+        id=""
+        cols="30"
+        rows="10"
+        v-model="body"
+      ></textarea>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</template>
+<script>
+export default {
+  props: ["combinedApi"],
+  data() {
+    return {
+      name: "",
+      body: "",
+      id: "",
+    };
+  },
+  methods: {
+    getRandom(min, max) {
+      return (this.id = Math.floor(Math.random() * (max - min) + min));
+    },
+    onSubmit() {
+      this.getRandom(1, 999999);
+      if (this.name.trim() && this.body.trim()) {
+        for (let i = 0; i < this.combinedApi.length; i++) {
+          if (this.id == this.combinedApi[i].item.id) {
+            return this.onSubmit();
+          }
+        }
+        const newCard = {
+          item: {
+            name: this.name,
+            body: this.body,
+            id: this.id,
+            url: "https://img1.freepng.ru/20180624/ivq/kisspng-business-organization-computer-software-tom-clancy-unknown-person-5b2f72c6649235.833799281529836230412.jpg",
+          },
+        };
+        this.$emit("addCard", newCard);
+        this.name = "";
+        this.body = "";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+.newCard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+h3 {
+  width: 100%;
+}
+div {
+  width: 100%;
+  display: flex;
+
+  align-items: center;
+}
+label {
+  width: 30%;
+}
+textarea {
+  resize: none;
+  margin: 20px 0;
+}
+textarea,
+input {
+  width: 60%;
+}
+</style>
