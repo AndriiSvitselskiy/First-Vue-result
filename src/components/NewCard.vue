@@ -46,6 +46,8 @@ export default {
             body: this.body,
             id: this.id,
             url: "https://img1.freepng.ru/20180624/ivq/kisspng-business-organization-computer-software-tom-clancy-unknown-person-5b2f72c6649235.833799281529836230412.jpg",
+            visibility: false,
+            centralItem:false
           },
         };
         this.$emit("addCard", newCard);
@@ -82,5 +84,9 @@ textarea {
 textarea,
 input {
   width: 60%;
+}
+button{
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 </style>

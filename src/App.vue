@@ -2,15 +2,17 @@
   <div id="app">
     <h1>API</h1>
     <hr />
-    <NewCard v-bind:combinedApi="combinedApi" @addCard="addCardToArray"/>
+    <NewCard v-bind:combinedApi="combinedApi" @addCard="addCardToArray" />
+
     <hr />
     <Loader v-if="loading" />
     <List
-      v-bind:combinedApi="combinedApi"
+      ref="childComponent"
       v-else-if="combinedApi.length"
+      v-bind:combinedApi="combinedApi"
       v-on:removeCard="removeCard"
     />
-    <p v-else>No cards</p>
+    <p class="noCards" v-else>No cards</p>
   </div>
 </template>
 
@@ -27,6 +29,11 @@ export default {
       combinedApi: [],
       loading: true,
     };
+  },
+  watch: {
+    newCardForVisibility() {
+      console.log("nu ok");
+    },
   },
   async mounted() {
     const res = await fetch(
@@ -45,12 +52,17 @@ export default {
         if (i.id == item.id) {
           item.url = i.url;
         }
+        item.centralItem = false;
+        item.visibility = false;
       });
       return { item };
     });
     setTimeout(() => {
       this.combinedApi = combinedArray;
-      this.loading = false;      
+      if (this.combinedApi.length > 3) {
+        this.combinedApi[0].item.centralItem = true;
+      }
+      this.loading = false;
     }, 1000);
   },
   components: {
@@ -64,9 +76,12 @@ export default {
         (index) => index.item.id !== id
       );
     },
-    addCardToArray(item){
-      this.combinedApi.push(item)
-    }
+    addCardToArray(item) {
+      if (this.combinedApi.length < 3) {
+        item.item.visibility = true;
+      }
+      this.combinedApi.push(item);
+    },
   },
 };
 </script>
@@ -79,5 +94,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.noCards {
+  margin-top: 150px;
+  font-size: 50px;
 }
 </style>
