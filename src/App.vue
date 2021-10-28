@@ -7,7 +7,6 @@
     <hr />
     <Loader v-if="loading" />
     <List
-      ref="childComponent"
       v-else-if="combinedApi.length"
       v-bind:combinedApi="combinedApi"
       v-on:removeCard="removeCard"
@@ -87,6 +86,9 @@ export default {
 </script>
 
 <style>
+body {
+  background: lightgrey;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

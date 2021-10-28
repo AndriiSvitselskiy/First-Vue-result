@@ -1,6 +1,6 @@
 <template>
   <form class="newCard" @submit.prevent="onSubmit">
-    <h3>Add New card</h3>
+    <h2>Add New card</h2>
     <div>
       <label for="name">Enter your name</label>
       <input type="text" name="name" v-model="name" />
@@ -47,7 +47,7 @@ export default {
             id: this.id,
             url: "https://img1.freepng.ru/20180624/ivq/kisspng-business-organization-computer-software-tom-clancy-unknown-person-5b2f72c6649235.833799281529836230412.jpg",
             visibility: false,
-            centralItem:false
+            centralItem: false,
           },
         };
         this.$emit("addCard", newCard);
@@ -60,10 +60,12 @@ export default {
 </script>
 <style scoped>
 .newCard {
+  width: 80%;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 h3 {
   width: 100%;
@@ -71,11 +73,12 @@ h3 {
 div {
   width: 100%;
   display: flex;
-
+  justify-content: space-around;
   align-items: center;
 }
 label {
-  width: 30%;
+  width: 20%;
+  font-size: 30px;
 }
 textarea {
   resize: none;
@@ -83,10 +86,15 @@ textarea {
 }
 textarea,
 input {
-  width: 60%;
-}
-button{
+  width: 50%;
+  border-radius: 20px;
+  padding: 10px;
   font-size: 20px;
+}
+button {
+  font-size: 30px;
   margin-bottom: 20px;
+  width: 15%;
+  border-radius: 20px;
 }
 </style>
